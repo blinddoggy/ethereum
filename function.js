@@ -2,7 +2,7 @@ const Web3 = require('web3');
 const web3 = new Web3('https://goerli.infura.io/v3/d7d55ab3c2d0480fb55e67b6def4cfe1');
 const ethers = require('ethers');
 const bip39 = require('bip39');
-//const ERC20 = require('web3-eth-erc20');
+const ERC20 = require('./erc20.abi.json');
 
 
 //create account from mnemonic
@@ -33,7 +33,6 @@ function accountFroMnemonic(mnemonic){
 //create account in eth without mnemonic
 function createAccountEth(key){
     const account = web3.eth.accounts.create();
-    
     if (key === 'public') {
         console.log('publicKey: ' + account.address);
         return(account.address);
@@ -86,6 +85,20 @@ async function signTransaction(){
     }
 }
 
+
+//A*D*S(YD*(SYD&(D&(DTS&(T???.WORKING AREA.///////)()*E(*(*(*WQ(*E()))))
+async function getTokenBalance(tokenAddress,puKey){
+
+    try {
+        const contract = new web3.eth.Contract(ERC20, tokenAddress);
+        const balance = await contract.methods.balanceOf(puKey);
+        console.log(balance);
+    } catch (error) {
+        
+    }
+   
+}
+
 // //send erc20 tokens
 // async function sendTokens(tokenAddress,to,amount){
 //     try {
@@ -113,7 +126,7 @@ async function signTransaction(){
 
 ////////DRAW////////////////////////////////////////////////
 const acc = accountFroMnemonic('keen sail orient half paper coast push section outside saddle cycle summer');
-balanceTokens('0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',acc.address)
+getTokenBalance('0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',acc.address)
 //sendTransactionEth(acc.privateKey,'0xaFF63138A5ec37f3b36bF5C83b8FC639E2857942',0.01)
 //getBalanceEth(acc.address)
 //accountFroMnemonic('able sail orient half paper coast push section outside saddle cycle summer');
